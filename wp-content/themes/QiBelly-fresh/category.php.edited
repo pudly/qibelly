@@ -1,0 +1,335 @@
+<?php
+/*
+Template Name: Classes
+*/
+?>
+
+<?php get_header(); ?>
+<?php get_sidebar('left'); ?>
+			<section class="primary">
+				
+	<?php 
+        $page_heading = get_the_title(26);
+        //$post = get_post(26);
+        $args = array( 'post_type'=> 'class', 'posts_per_page' => '-1');
+        
+        //echo $_REQUEST['cat'];
+        
+        if($_GET['cat'] != 1)
+        {
+          
+            $args["cat"] = $_GET['cat'];
+            $page_cat = get_category( $_REQUEST['cat']);
+            $parent_cat = get_category( $page_cat->parent);
+            $page_heading .= " - ".$page_cat->name;;
+            
+        }
+        //echo "ggg"; 
+        //query_posts( $args ); 
+        ?>
+        
+        <!--<h2><?php // echo $parent_cat->name;//Classes?> - <?php // echo $page_cat->name; ?> </h2>-->
+        <h2><?php echo $page_heading; ?> </h2>
+
+
+
+<<<<<<< .mine
+
+$Post_Category_Walker = new Post_Category_Walker();
+//Classes page show Categories
+        $cat_args = array(
+    //        'show_option_all'    => ,
+    //        'orderby'            => 'name',
+    //        'order'              => 'ASC',
+    //        'style'              => 'list',
+    //        'show_count'         => 0,
+    //        'hide_empty'         => 1,
+    //        'use_desc_for_title' => 1,
+            'child_of'           => 3,
+    //        'feed'               => ,
+    //        'feed_type'          => ,
+    //        'feed_image'         => ,
+    //        'exclude'            => ,
+    //        'exclude_tree'       => ,
+    //        'include'            => ,
+            'hierarchical'       => false,
+            'title_li'           => __( '' ),
+    //        'show_option_none'   => __('No categories'),
+    //        'number'             => NULL,
+    //        'echo'               => 1,
+    //        'depth'              => 0,
+    //        'current_category'   => 0,
+    //        'pad_counts'         => 0,
+    //        'taxonomy'           => 'category',
+            'walker'             => $Post_Category_Walker 
+         );
+?>
+
+	<?php 
+//		if($page_cat->category_description) {
+//	?>
+<!--<div class="cat-desc">-->
+	<?php
+//		    echo $page_cat->category_description;
+//	?>
+<!--</div>-->
+	<?php
+//		} 
+//	
+        
+        ?>
+<p style="overflow: hidden;"><a href="<?php echo get_bloginfo('wpurl');?>/?cat=1" title="See All Classes" class="more">Back to All Classes</a></p>
+<div id="classes">
+    <?php if($_GET['cat'] == 1)
+        { ?>
+	<div class="controls">
+        <ul id="control-discipline">
+        	<li><em>Type</em></li>
+        	<li><a href="#all" rel="all" class="current">All</a></li>
+        	<?php wp_list_categories($cat_args); ?>
+    	</ul>
+				      
+<?php
+    //$W_Secondary_Nav = new Walker_Secondary_Nav();Post_Category_Walker    
+    
+        //Classes page show Categories
+        $cat_args = array(
+    //        'show_option_all'    => ,
+    //        'orderby'            => 'name',
+    //        'order'              => 'ASC',
+    //        'style'              => 'list',
+    //        'show_count'         => 0,
+    //        'hide_empty'         => 1,
+    //        'use_desc_for_title' => 1,
+            'child_of'           => 10,
+    //        'feed'               => ,
+    //        'feed_type'          => ,
+    //        'feed_image'         => ,
+    //        'exclude'            => ,
+    //        'exclude_tree'       => ,
+    //        'include'            => ,
+            'hierarchical'       => true,
+            'title_li'           => __( '' ),
+    //        'show_option_none'   => __('No categories'),
+    //        'number'             => NULL,
+    //        'echo'               => 1,
+    //        'depth'              => 0,
+    //        'current_category'   => 0,
+    //        'pad_counts'         => 0,
+    //        'taxonomy'           => 'category',
+              'walker'             => $Post_Category_Walker 
+         );
+
+        ?>
+        <ul id="control-type">
+        	<li><em>Discipline</em></li>
+        	<li><a href="#all" rel="all" class="current">All</a></li>
+        	<?php wp_list_categories($cat_args);?>
+    	</ul>
+	</div>
+	
+	<div id="class-descriptors">
+		<div>
+			<h3>Type <em>None Selected</em></h3>
+		</div>
+		<div>
+			<h3>Discipline <em>None Selected</em></h3>
+		</div>
+	</div>
+    <?php
+        }
+    ?>
+        
+
+
+<?php 
+		if($page_cat->category_description) {
+	?>
+<div class="cat-desc" style="width: 420px; margin-top: -3em;">
+	<?php
+		    echo $page_cat->category_description;
+	?>
+</div>
+	<?php
+		} 
+	?>
+
+=======
+>>>>>>> .r265
+                
+    <ul class="items">
+
+
+<!--blog posts-->
+
+<?php 
+        query_posts( $args ); 
+
+        
+
+        if ( have_posts() ) : while ( have_posts() ) : the_post(); 
+
+        $post_categories = wp_get_post_categories( get_the_ID() );
+
+        //$cat_slug_string_disc = "";
+        //$cat_slug_string_type = "";
+        
+        $cat_slug_string = "";
+
+        foreach($post_categories as $c){
+            $cat = get_category( $c );
+            $cat_slug_string .= $cat->slug." "; 
+//            
+        }
+?>
+    
+    <li data-filter="<?php echo $cat_slug_string; /*?>" data-filterDiscipline="<?php echo $cat_slug_string_disc; ?>" data-filterType="<?php echo $cat_slug_string_type; */?>">
+    	
+    	<?php
+        //$allKeys = get_post_custom_keys(get_the_ID());
+
+        $day=get_post_meta(get_the_ID(), 'day', true);
+        //echo '<pre>';
+        //print_r($day);
+        //echo '</pre>';
+
+        $time=get_post_meta(get_the_ID(), 'time', true);
+        $price=get_post_meta(get_the_ID(), 'price', true);
+        $locations_str=get_post_meta(get_the_ID(), 'class-locations', true);
+        $locations = explode(",", str_replace(" ", "", $locations_str));
+        $experience_level=get_post_meta(get_the_ID(), 'experience-level', true);
+        $bodytag = str_replace("%body%", "black", "<body text='%body%'>");
+        
+        ?>
+		<a href="<?php echo get_permalink($post->ID); ?>" title="<?php the_title();?>">
+			<div class="desc">
+				<?php the_title('<h3>','</h3>');?>
+                <p><?php the_excerpt(); ?></p>
+                
+                <!--<p><strong>dont need to do another loop here...?</strong></p>-->
+ 			<?php
+ 				if ($post_categories) {
+			?>
+<!-- 			<h4>Course type:</h4> -->
+				<ul class="pills">
+		            <?php
+					//$cats = array();
+		            foreach($post_categories as $c){
+		                $cat = get_category( $c );
+		                ?>
+	                <li><?php echo $cat->name." "; ?></li>
+		            <?php
+	                	$cats[] = array( 'name' => $cat->name, 'slug' => $cat->slug ); 
+		            }
+				?>
+				</ul>
+				<?php
+
+				}
+             ?>
+				<span class="more">Read more</span>
+			</div>
+			<div class="details">
+                        <?php 
+                        foreach($locations as $location)
+                        {
+                            
+                            
+                            $location_post = get_posts( array( 'post_type' => 'location', 'name'=> $location));
+                            //echo '<pre>';
+                            //print_r($location_post);
+                            
+                            //echo $location_post[0]->ID;
+                            $gmap_image_url=get_post_meta($location_post[0]->ID, 'gmap-image-url', true);                            
+                            $location_address=get_post_meta($location_post[0]->ID, 'location-address', true);
+
+                            
+                            if($gmap_image_url)
+                            {
+                                
+                            
+                        ?>
+                            
+                            
+            	<img src="<?php echo $gmap_image_url; ?>" class="gmap" alt="<?php echo $location_post[0]->post_title; ?>">
+<!--                <span><?php// echo $location_post[0]->post_title; ?></span>-->
+                <?php //echo '</pre>';
+                            }
+                        }
+                        ?>
+            <?php if($price){ ?>
+                <span class="price"><?php echo $price; ?></span>
+            <?php } ?>
+
+			<?php if($experience_level) { ?>
+        		<span class="experience"><?php echo $experience_level;//false if you want an array?></span>	
+        	<?php } ?>
+                <dl class="time">
+                    <?php
+                    
+                    if($day){
+                    ?> 
+                        <dt><?php echo $day; ?></dt>
+                    <?php
+                    }
+
+                    if($time){ ?> 
+                        <dd><?php echo $time; ?></dd>
+                    <?php } ?>
+                </dl>
+                        
+        <?php 
+
+         /*
+        if($day)
+        {
+        ?> 
+        <dt>When:</dt>
+        <dd><?php echo $day; ?>
+        <?php
+        }
+        
+        if($time)
+        {
+        ?> 
+        <?php echo $time; ?></dd>
+        <br/>
+        <?php
+        }
+         
+        
+        if($location)
+        {
+        ?> 
+        <dt>Location:</dt>
+        <dd><!--CREATE CUSTOM LOCATION RELATIONSHIP--></dd>
+        <?php
+        }*/
+        
+		?>
+        
+                    </div>
+                </a>
+            </li>
+        
+
+    
+<?php endwhile; ?>
+
+</ul> 
+<p><a href="#content" rel="top" class="more">Back to top</a></p>
+
+</div>
+
+<?php else: ?>
+<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
+
+<?php endif; ?>
+
+<!--end to post-->
+        
+ 			</section>
+			
+<?php // get_sidebar('right'); ?>
+
+<?php get_footer(); ?>

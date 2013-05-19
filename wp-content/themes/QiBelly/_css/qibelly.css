@@ -1,0 +1,600 @@
+/* @override http://www.qibelly.com/_css/qibelly.css */
+
+/* @override http://www.qibelly.com/_css/qibelly.css */
+
+/* @override 
+	http://www.qibelly.com/css.php?n=default
+	http://www.qibelly.com/_css/qibelly.css
+*/
+
+/* IE png fix (see zip folder in root) */
+
+a, img, div {
+	behavior: url(/wp-content/themes/QiBelly/_graphics/iepngfix.htc)
+}
+
+/* qibelly main page stylesheet */
+
+/* layout */
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	text-decoration: none;
+	color: #222;
+	font-size: 13px;
+	line-height: 18px;
+	margin: 0;
+	padding: 0;
+	font: 100% "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background: #fff url(/wp-content/themes/QiBelly/_graphics/background.jpg) repeat-y center;
+}
+
+body#index {
+	color: #fff;
+	background-image: none;
+	background-color: #e0110e;
+}
+
+#wrapper {
+	margin: 0 auto;
+	width: 975px;
+}
+
+#container {
+	float: left;
+	width: 975px;
+}
+
+h1#buddha {
+	float: left;
+	display: block;
+	width: 150px;
+	height: 190px;
+	background: url(/wp-content/themes/QiBelly/_graphics/buddha_small.png) no-repeat scroll;
+	text-indent: -999em;
+	bottom: 0;
+	margin-bottom: 0;
+	margin-left: 45px;
+	position: fixed;
+}
+
+h1#index_buddha {
+	position: fixed;
+	display: block;
+	right: 18px;
+	bottom: 0;
+	background: url(/wp-content/themes/QiBelly/_graphics/buddha_large.png) no-repeat scroll;
+	width: 308px;
+	height: 389px;
+	margin-bottom: 0;
+	text-indent: -999em;
+}
+
+.clickable {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+#left_menu {
+	float: left;
+	display: inline;
+	width: 240px;
+	left: 0;
+	margin-top: 140px;
+	position: relative;
+	background-image: none;
+}
+
+#left_menu ul li a {
+	color: #222;
+	margin: 0;
+	line-height: 16px;
+	margin-bottom: 1.0588235294117647em;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+#left_menu ul li a:hover {
+	color: #e0110e;
+}
+
+#index_menu {
+	background: none;
+	color: #fff;
+	position: static;
+	float: left;
+	margin: 80px 0 0 95px;
+	width: 600px;
+}
+
+h1#index_type {
+	background-image: url(/wp-content/themes/QiBelly/_graphics/TYPE_no_nosense_approach.png);
+	width: 550px;
+	height: 210px;
+	text-indent: -999em;
+}
+
+#index_text {
+	background: none;
+	color: #e0110e;
+	position: static;
+	float: left;
+	margin: 0 0 0 85px;
+	width: 495px;
+}
+
+#reiki {
+	height: 53px;
+	background: url(/wp-content/themes/QiBelly/_graphics/1_Reiki.png) no-repeat;
+}
+
+#meditation {
+	height: 53px;
+	background: url(/wp-content/themes/QiBelly/_graphics/2_Meditation.png) no-repeat;
+}
+
+#qigong {
+	height: 53px;
+	background: url(/wp-content/themes/QiBelly/_graphics/3_QiGong.png) no-repeat;
+}
+
+#martialarts {
+	height: 53px;
+	background: url(/wp-content/themes/QiBelly/_graphics/4_Chinese.png) no-repeat;
+}
+
+#reiki:hover, #meditation:hover, #qigong:hover, #martialarts:hover {
+	background-position: 0 -53px;
+	cursor: pointer;
+}
+
+.modalities {
+	background-color: #fff;
+	height: 53px;
+	width: 475px;
+}
+
+#index_text h4, #index_text h4 a {
+	color: #222;
+}
+
+#content {
+	width: 430px;
+	float: left;
+	display: inline;
+	margin: 80px 14px 54px;
+	background: none;
+	color: #222;
+}
+
+#content a {
+	color: #e0110e;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#content a:hover {
+	color: #ba110e;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+#content ul li {
+	list-style-type: none;
+	list-style-image: url(/wp-content/themes/QiBelly/_graphics/tick.gif);
+	margin-top: 4.5px;
+}
+
+#right_photo, #right_menu {
+	color: #222;
+	float: right;
+	display: inline;
+	width: 240px;
+	margin-right: 0;
+	margin-left: 0;
+	margin-top: 100px;
+}
+
+#sub_menu {
+	color: #222;
+	margin-left: 14px;
+	margin-top: 18px;
+	font-variant: normal;
+}
+
+#sub_menu li a {
+	color: #222;
+	margin-bottom: 9px;
+	font-variant: normal;
+}
+
+#sub_menu ul li a {
+	font-size: 12px;
+	font-weight: normal;
+	/*color: #e0110e;*/
+}
+
+#left_menu #sub_menu {
+	margin-left: 0;
+}
+
+#sub_menu h5 {
+	color: #e0110e;
+}
+
+#sub_menu li a:hover {
+	color: #e0110e;
+}
+
+#footer {
+	color: #e0110e;
+	width: 495px;
+	float: left;
+	margin-top: 18px;
+	margin-bottom: 0;
+	margin-left: 254px;
+	position: fixed;
+	bottom: 0;
+	background: url(/wp-content/themes/QiBelly/_graphics/footer_bg.png) no-repeat 0 18px;
+}
+
+#footer a {
+	color: #e0110e;
+}
+
+#footer a:hover {
+	color: #e0110e;
+}
+
+img {
+	border: none;
+}
+
+hr {
+	height: 2px;
+	width: 98%;
+	text-align: left;
+	margin: 27px 0 18px;
+	border: none;
+	background-color: #e0110e;
+}
+
+fieldset {
+    border: none;
+    /* trick */
+    position: relative;
+	font: 13px Helvetica, Arial, sans-serif;
+}
+
+input#nametext, input#emailtext {
+	background-color: rgba(255,254,255,0);
+	font-weight: bold;
+	color: #e0110e;
+	font-size: 13px;
+}
+
+label
+{
+    /* trick */
+    left: 7px;
+    top: 6px;
+    position:absolute;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+input[type="text"]
+{
+    border:1px solid #222;
+    display: block;
+    margin-bottom: 9px;
+    padding: 5px;
+    width: 350px;
+    
+    /* trick */
+    text-indent: 43px;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+#submitbutton {
+	color: #e0110e;
+	border-style: none;
+	font: bold 13px Helvetica, Arial, sans-serif;
+	width: 72px;
+	height: 72px;
+	float: none;
+	text-indent: -999em;
+	background-color: transparent;
+	background-image: url(/wp-content/themes/QiBelly/_graphics/signup-button.png);
+	margin-top: 18px;
+	margin-left: 0;
+	margin-bottom: 0;
+}
+
+#form_wrap h5 {
+	display: inline-block;
+	margin-top: 14px;
+	margin-right: 36px;
+	margin-left: 14px;
+	color: #e0110e;
+}
+
+#submitbutton:hover {
+	color: #e0110e;
+}
+
+form {
+	margin: 14px;
+}
+
+#form_wrap {
+	margin-left: 0;
+	margin-top: 36px;
+	/*border: dotted 1px grey;*/
+	/*background: url(http://qibelly.com/_graphics/signup-background.png) no-repeat;*/
+}
+
+/* typography */
+
+h1 {
+	margin: 0;
+	font-size: 48px;
+	line-height: 48px;
+	margin-bottom: 18px;
+}
+
+h2 {
+	margin: 0;
+	font-size: 36px;
+	margin-bottom: 18px;
+	line-height: 36px;
+}
+
+h3 {
+	margin: 0;
+	font-size: 27px;
+	line-height: 27px;
+	margin-bottom: 18px;
+}
+
+h4 {
+	margin: 0;
+	font-size: 21px;
+	line-height: 21px;
+	margin-bottom: 18px;
+}
+
+#index_text h3 {
+	color: #222;
+}
+
+#index_menu h3 a {
+	color: #fff;
+}
+
+#index_text p {
+	color: #222;
+}
+
+#index_text ul li {
+	color: #222;
+}
+
+#index_text a {
+	text-decoration: none;
+	color: #222;
+}
+
+h5 {
+	margin: 0;
+	font-size: 14px;
+	line-height: 14px;
+	margin-bottom: 3px;
+}
+
+h6 {
+	margin: 0;
+	font-size: 11px;
+	line-height: 14px;
+	margin-bottom: 18px;
+	text-decoration: overline;
+}
+
+h6.hidden {
+	text-indent: -999em;
+	text-decoration: none;
+	display: none;
+}
+
+p, ul, pre, td, th {
+	margin: 0;
+	font-size: 0.8em;
+	line-height: 1.3846153846153846em;
+	margin-bottom: 18px;
+}
+
+blockquote {
+	margin: 0;
+	font-size: 36px;
+	font-weight: bold;
+	line-height: 30px;
+}
+
+p.small {
+	margin: 0;
+	font-size: 0.8461538461538461em;
+	line-height: 1.6363636363636365em;
+	margin-bottom: 1.6363636363636365em;
+}
+
+table {
+	border-collapse: collapse;
+	margin-bottom: 1.3846153846153846em;
+}
+
+ul {
+	
+}
+
+li {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+	color: #222222;
+}
+
+a.rollover {
+	display: block;
+	height: 53px;
+	text-indent: -999em;
+}
+
+.modalities {
+	height: 53px;
+	width: 475px;
+	background-color: #ffffff;
+}
+
+#rgrainger {
+	position: fixed;
+	display: block;
+	height: 100px;
+	width: 145px;
+	background: url(/wp-content/themes/QiBelly/_graphics/rg_logo.png) no-repeat;
+	text-indent: -999em;
+	text-decoration: none;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+}
+
+#rgrainger:hover {
+	background: url(/wp-content/themes/QiBelly/_graphics/rg_logo_hover.png) no-repeat;
+}
+
+#new_index {
+	position: fixed;
+	display: block;
+	height: 145px;
+	width: 145px;
+	background: url(/wp-content/themes/QiBelly/_graphics/sign-up-button-index.png) no-repeat;
+	text-indent: -999em;
+	text-decoration: none;
+	top: 0;
+	right: 0;
+	margin: 72px 48px 0 0;
+}
+
+#new_index:hover {
+	background: url(/wp-content/themes/QiBelly/_graphics/sign-up-button-index.png) no-repeat 1px -1px;
+}
+
+#new {
+	position: fixed;
+	display: block;
+	height: 80px;
+	width: 80px;
+	background: url(/wp-content/themes/QiBelly/_graphics/whats-new-ring-red.png) no-repeat;
+	text-indent: -999em;
+	text-decoration: none;
+	top: 0;
+	right: 0;
+	margin: 72px 48px 0 0;
+}
+
+.white {
+	color: #fff;
+}
+
+h5.index {
+	color: #222;
+	margin-top: 9em;
+}
+
+#left_menu ul li.small, #left_menu ul li.small a {
+	font-size: 1em;
+	font-weight: bold;
+	color: #222;
+}
+
+#left_menu ul li.small a:hover {
+	font-size: 1em;
+	font-weight: bold;
+	color: #e0110e;
+}
+
+#sub_menu li.small, #sub_menu li.small a {
+	font-weight: bold;
+}
+
+.non-bold {
+	font-weight: normal;
+}
+
+body#1_reiki a#1_reiki_nav, 
+body#2_meditation a#2_meditation_nav, 
+body#3_qigong a#3_qigong_nav, 
+body#4_chinese_martial_arts a#4_chinese_martial_arts_nav, 
+body#5_news a#5_news_nav, 
+body#7_consultations a#7_testimonials_nav {
+	color: #e0110e;
+}
+
+#index_text a {
+	text-decoration: underline;
+}
+
+#index_text a:hover {
+	text-decoration: underline;
+	color: #fff;
+}
+
+#content iframe {
+	opacity: 0.85;
+}
+
+
+/*beth added*/
+
+#s
+{
+    width:110px;
+    display:inline;
+    text-indent:0;
+}
+
+#searchform
+{
+    margin:14px 14px 14px 0;
+    
+}
+
+.screen-reader-text
+{
+    text-indent:-1000px;
+
+}
+
+dd, dt { /* beth added dd,dt */ 
+	margin: 0;
+	font-size: 0.8em;
+	line-height: 1.3846153846153846em;
+}
+
+dt{
+    font-weight:bold;
+    
+}
+
+img.alignright {float:right; margin:0 0 1em 1em}
+img.alignleft {float:left; margin:0 1em 1em 0}
+img.aligncenter {display: block; margin-left: auto; margin-right: auto}
+.alignright {float:right; }
+.alignleft {float:left; }
+.aligncenter {display: block; margin-left: auto; margin-right: auto}

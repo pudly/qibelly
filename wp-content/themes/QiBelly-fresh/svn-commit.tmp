@@ -1,0 +1,7 @@
+search, faqs
+
+--This line, and those below, will be ignored--
+
+M    search.php
+M    assets/css/screen.css
+M    t_faqs.php
