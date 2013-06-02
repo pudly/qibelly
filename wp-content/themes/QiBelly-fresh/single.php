@@ -7,19 +7,6 @@ Template Name: Blog
 <?php get_header(); ?>
 <?php get_sidebar('left'); ?>
 			<section class="primary">
-
-<?php 
-//get title
-?><!--make h2--><?php
-//$id = (int)$_GET['post_id'];
-//echo '<h4>'.get_the_title($id).'</h4>';
-//$post = get_post($id);
-//echo $post->post_content;
-//echo '<pre>';
-//print_r($post);
-//:echo '</pre>';
-?>
-
 <!--blog posts-->
 <?php 
 
@@ -112,42 +99,11 @@ if($post->post_type == "post")
                         <dd><?php echo $time; ?></dd>
                     <?php } ?>
                 </dl>
-                        
-        <?php 
-
-         /*
-        if($day)
-        {
-        ?> 
-        <dt>When:</dt>
-        <dd><?php echo $day; ?>
-        <?php
-        }
-        
-        if($time)
-        {
-        ?> 
-        <?php echo $time; ?></dd>
-        <br/>
-        <?php
-        }
-         
-        
-        if($location)
-        {
-        ?> 
-        <dt>Location:</dt>
-        <dd><!--CREATE CUSTOM LOCATION RELATIONSHIP--></dd>
-        <?php
-        }*/
-        
-		?>
-        
             </div>      
-       <?php if($post->post_type != "faq" || $post->post_type != "blog")   {?>      
+       <?php if($post->post_type == "class" )   {?>      
             <p><a href="<?php echo get_permalink(34); ?>" class="more">Book a class</a></p>
          <?php } 
-         else { ?>
+         else if($post->post_type == "faq") { ?>
             <a href="<?php echo get_permalink(30); ?>" title="Return to FAQs" class="more back">Return to FAQs</a>
          <?php } ?>
     
