@@ -4,6 +4,7 @@ Template Name: Contact Us
 */
 ?>
 <?php
+$qibellyEmail = "noreply@qibelly-test.com";
 $testEmail = "bethes135@gmail.com";
 
 ?>
@@ -112,9 +113,19 @@ if (isset($_POST["Form"]))
 	    }
 	    
 	    
+	    $headers = "From: Contact QiBelly $qibellyEmail" . "\r\n";
+	    add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+	    wp_mail($p_to, $p_subject, $p_message, $headers);
+	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+	    
+	    $autoR_message = "<p>Thank you for contacting QiBelly. Please allow 24 to 48 hours for a response. <br/>This is auto-responder, please do not reply to this email.</p>";
+//	if($zForm["SignUp"] != "")
+//	{
+//		$autoR_message .= "<p>If you haven't had a chance yet, <a href='http://www.qibelly.com/free-class/' >sign up</a> for the QiBelly Newsletter and get a class for free.</p>";
+//	}
 	    $headers = 'From: Contact QiBelly <noreply@qibelly-test.com>' . "\r\n";
 	    add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-	    wp_mail($p_to, $subject, $p_message, $headers);
+	    wp_mail($zForm["Email"], "Contact QiBelly - Thank You", $autoR_message, $headers);
 	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
             exit;
         }
@@ -127,22 +138,29 @@ function set_html_content_type()
 }
 ?>	    
 <form id="contact-us" method="POST" >
+	<fieldset>
+<legend>Contact Message</legend>
+		<ol>
+	<li><label for="txt_name">Name</label><br/>
+	<input type="text" id="txt_name" name="Form[Name]" /></li>
 	
-	<p><label for="txt_name">Name</label><br/>
-	<input type="text" id="txt_name" name="Form[Name]" /></p>
-	
-	<p>
+	<li>
 	<label for="txt_subject">Subject</label><br/>
-	<input type="text" id="txt_subject" name="Form[Subject]" /></p>
-	<p>
+	<input type="text" id="txt_subject" name="Form[Subject]" /></li>
+	<li>
 	<label for="txt_email">Email</label><br/>
-	<input type="text" id="txt_email" name="Form[Email]" /></p>
-	
-	<p>
+	<input type="text" id="txt_email" name="Form[Email]" /></li>
+	<li>
 	<label for="txt_name">Message</label><br/>
-	<textarea id="txt_message" rows="4" cols="50" name="Form[Message]"></textarea></p>
+	<textarea id="txt_message" rows="4" cols="50" name="Form[Message]"></textarea></li>
 	
-	<input type="submit" id="btn_submit" text="Click" />
+<!--	<p>
+	<label for="ckb_signup">Newsletter Sign Up</label><br/>
+	<input type="checkbox" id="ckb_signup" name="Form[SignUp]" /></p>-->
+	
+	<li><input type="submit" id="btn_submit" text="Click" /></li>
+	</ol>
+	</fieldset>
 </form>
 
             </section>
