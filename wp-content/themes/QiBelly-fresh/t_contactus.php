@@ -158,8 +158,7 @@ function set_html_content_type()
 	<label for="ckb_signup">Newsletter Sign Up</label><br/>
 	<input type="checkbox" id="ckb_signup" name="Form[SignUp]" /></p>-->
 	
-	<li><button id="btn_submit" value="Subscribe" type="submit">Submit</button></li
-	<li><input type="submit" id="btn_submit" text="Click" /></li>
+	<li><button id="btn_submit" value="Subscribe" type="submit">Submit</button></li>
 	</ol>
 	</fieldset>
 </form>
