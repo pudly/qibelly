@@ -3,7 +3,10 @@
 Template Name: Contact Us
 */
 ?>
+<?php
+$testEmail = "bethes135@gmail.com";
 
+?>
 <?php get_header(); ?>
 <?php get_sidebar('left'); ?>
             <section class="primary">
@@ -90,13 +93,37 @@ if (isset($_POST["Form"]))
             print "Form passed!<br />";
             var_dump($zForm);
 		    //$attachments = array(WP_CONTENT_DIR . '/uploads/file_to_attach.zip');
-	   $headers = 'From: My Name <myname@mydomain.com>' . "\r\n";
-	   wp_mail('bethes135@gmail.com', 'subject', 'message', $headers);
 	    
+	    //send email to paul
+	    $p_to = "paul@qibelly.com";
+	    //$p_from = "contactus@qibelly.com";
+	    $p_subject = "Contact QiBelly.com";
+	    if($zForm["Subject"] != "")
+	    {
+		    $p_subject .= " - " . $zForm["Subject"];
+	    }
+	    
+	    $p_message = "Email from <a href='mailto:" . $zForm["Email"] . "'>" .$zForm["Email"] . "</a><p>" . $zForm["Message"]."</p>";
+	    
+	    if($testEmail != "")
+	    {
+		    $p_to = $testEmail; 
+		    $p_message .= "<br/><br/>THIS IS A TEST EMAIL.";
+	    }
+	    
+	    
+	    $headers = 'From: Contact QiBelly <noreply@qibelly-test.com>' . "\r\n";
+	    add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+	    wp_mail($p_to, $subject, $p_message, $headers);
+	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
             exit;
         }
-	
-	
+}
+
+
+function set_html_content_type()
+{
+	return 'text/html';
 }
 ?>	    
 <form id="contact-us" method="POST" >
@@ -104,6 +131,9 @@ if (isset($_POST["Form"]))
 	<p><label for="txt_name">Name</label><br/>
 	<input type="text" id="txt_name" name="Form[Name]" /></p>
 	
+	<p>
+	<label for="txt_subject">Subject</label><br/>
+	<input type="text" id="txt_subject" name="Form[Subject]" /></p>
 	<p>
 	<label for="txt_email">Email</label><br/>
 	<input type="text" id="txt_email" name="Form[Email]" /></p>
