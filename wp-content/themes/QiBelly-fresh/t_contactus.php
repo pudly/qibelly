@@ -141,17 +141,17 @@ function set_html_content_type()
 	<fieldset>
 <legend>Contact Message</legend>
 		<ol>
-	<li><label for="txt_name">Name</label><br/>
+	<li><label for="txt_name">Name</label>
 	<input type="text" id="txt_name" name="Form[Name]" /></li>
 	
 	<li>
-	<label for="txt_subject">Subject</label><br/>
+	<label for="txt_subject">Subject</label>
 	<input type="text" id="txt_subject" name="Form[Subject]" /></li>
 	<li>
-	<label for="txt_email">Email</label><br/>
+	<label for="txt_email">Email</label>
 	<input type="text" id="txt_email" name="Form[Email]" /></li>
 	<li>
-	<label for="txt_name">Message</label><br/>
+	<label for="txt_name">Message</label>
 	<textarea id="txt_message" rows="4" cols="50" name="Form[Message]"></textarea></li>
 	
 <!--	<p>
