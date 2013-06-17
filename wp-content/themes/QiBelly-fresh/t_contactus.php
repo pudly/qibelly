@@ -91,8 +91,9 @@ if (isset($_POST["Form"]))
                 print $val . "<br />";
             }
         } else {
-            print "Form passed!<br />";
-            var_dump($zForm);
+            //print "Form passed!<br />";
+            print "Thank you for contacting us. We will be get back to you as soon as possible!<br />";
+            //var_dump($zForm);
 		    //$attachments = array(WP_CONTENT_DIR . '/uploads/file_to_attach.zip');
 	    
 	    //send email to paul
