@@ -105,7 +105,7 @@ if (isset($_POST["Form"]))
 		    $p_subject .= " - " . $zForm["Subject"];
 	    }
 	    
-	    $p_message = "Email from <a href='mailto:" . $zForm["Email"] . "'>" .$zForm["Email"] . "</a><p>" . $zForm["Message"]."</p>";
+	    $p_message = "Email from <a href='mailto:" . $zForm["Email"] . "'>" .$zForm["Email"] . "</a><p>" . htmlspecialchars($zForm["Message"])."</p>";
 	    
 	    if($testEmail != "")
 	    {
