@@ -142,18 +142,18 @@ function set_html_content_type()
 	<fieldset>
 <legend>Contact Message</legend>
 		<ol>
-	<li><label for="txt_name">Name</label>
-	<input type="text" id="txt_name" name="Form[Name]" /></li>
+	<li><label for="param_name">Name</label>
+	<input type="text" id="param_name" name="Form[Name]" data-validation='{"required":true, "message":"Please enter your name"}' placeholder="Name" size="20" /></li>
 	
 	<li>
 	<label for="txt_subject">Subject</label>
-	<input type="text" id="txt_subject" name="Form[Subject]" /></li>
+	<input type="text" id="param_subject" name="Form[Subject]" data-validation='{"required":true, "message":"Please enter a subject"}' placeholder="Subject" size="20" /></li>
 	<li>
 	<label for="txt_email">Email</label>
-	<input type="text" id="txt_email" name="Form[Email]" /></li>
+	<input type="email" id="param_email" name="Form[Email]" data-validation='{"required":true, "message":"Please enter your email address"}' placeholder="xxxxx@xxxx.xxx" size="20" /></li>
 	<li>
 	<label for="txt_name">Message</label>
-	<textarea id="txt_message" rows="4" cols="50" name="Form[Message]"></textarea></li>
+	<textarea id="param_message" rows="4" cols="50" name="Form[Message]" data-validation='{"required":true, "message":"Please enter a message"}' placeholder="message"></textarea></li>
 	
 <!--	<p>
 	<label for="ckb_signup">Newsletter Sign Up</label><br/>
