@@ -99,14 +99,14 @@
 /* // page structure */
 
 /* forms */
-	form#contact-us fieldset {
+	form#contact-us fieldset, form#free-class fieldset {
 		padding: 1em 0 0 0;
 	}
 	
-	form#contact-us input[type=text],
-	form#contact-us input[type=email],
-	form#contact-us textarea,
-	form#contact-us select {
+	form#contact-us input[type=text],form#free-class input[type=text],
+	form#contact-us input[type=email],form#free-class input[type=email],
+	form#contact-us textarea,form#free-class textarea,
+	form#contact-us select,form#free-class select {
 		border: 0;
 		padding: 8px;
 		font: 14px tahoma, sans-serif;
@@ -127,36 +127,45 @@
 		float: left;
 	}
 	
-	form#contact-us input[type=text]:focus,
-	form#contact-us input[type=email]:focus,
-	form#contact-us textarea:focus,
-	form#contact-us select:focus {
+	form#contact-us input[type=text]:focus,	form#free-class input[type=text]:focus,
+
+	form#contact-us input[type=email]:focus,	form#free-class input[type=email]:focus,
+
+	form#contact-us textarea:focus,	form#free-class textarea:focus,
+
+	form#contact-us select:focus,	form#free-class select:focus {
+ 
 		outline: none;
 		background: #f5f5f5;
 	}
 	
-	form#contact-us ol {
+	form#contact-us ol,	form#free-class ol {
+ 
 		list-style: none;
 		padding: 0;
 		margin: 0;
 	}
 	
-	form#contact-us ol li {
+	form#contact-us ol li,	form#free-class ol li {
+ 
 		position: relative;
 		padding: .75em 0;
 /*		border-top: 1px solid #e1e1e1;
 		border-bottom: 1px solid #ccc;*/
 	}
 	
-	form#contact-us ol li:first-child {
+	form#contact-us ol li:first-child, 	form#free-class ol li {
+ 
 		border-top: 0;
 	}
 	
-	form#contact-us ol li:last-child {
+	form#contact-us ol li:last-child, 	form#free-class ol li {
+ 
 		border-bottom: 0;
 	}
 	
-	form#contact-us ol li label {
+	form#contact-us ol li label, 	form#free-class ol li {
+ 
 		float: left;
 /*		width: 10em;*/
 		text-align: right;
@@ -165,21 +174,27 @@
 		cursor: pointer;
 	}
 	
-	form#contact-us ol li.failed label {
+	form#contact-us ol li.failed label, 	form#free-class ol li {
+ 
 		color: #c00;
 	}
 	
-	form#contact-us ol li.failed input[type=text],
-	form#contact-us ol li.failed input[type=email],
-	form#contact-us ol li.failed textarea,
-	form#contact-us ol li.failed select{
+	form#contact-us ol li.failed input[type=text],	form#free-class ol li.failed input[type=text],
+
+	form#contact-us ol li.failed input[type=email],	form#free-class ol li.failed input[type=email],
+
+	form#contact-us ol li.failed textarea,	form#free-class ol li.failed textarea,
+
+	form#contact-us ol li.failed select,	form#free-class ol li.failed select{
+
 		-o-box-shadow: 0 1px 1px 1px #c00 !important;
 		-moz-box-shadow: 0 1px 1px 1px #c00 !important;
 		-webkit-box-shadow: 0 1px 1px 1px #c00 !important;
 		box-shadow: 0 1px 1px 1px #c00 !important;		
 	}
 	
-	form#contact-us legend {
+	form#contact-us legend,	form#free-class legend {
+ 
 		font-size: 1.2em;	
 		padding: 1em 2em 1em 1em;
 
@@ -195,7 +210,8 @@
 		box-shadow: 0 1px 1px 1px #aaa !important;
 	}
 	
-	form#contact-us button {
+	form#contact-us button,	form#free-class button {
+ 
 		font-size: 16px;
 		color: #fff;
 		padding: 10px 20px;
@@ -229,17 +245,20 @@
 		margin-left: 9.65em;
 	}
 	
-	form#contact-us input[type='checkbox'] {
+	form#contact-us input[type='checkbox'],	form#free-class input[type='checkbox'] {
+ 
 		float: left;
 		margin: 1em .5em 0 12em;
 	}
 	
-	form#contact-us input[type='checkbox'] + label {
+	form#contact-us input[type='checkbox'] + label,	form#free-class input[type='checkbox'] + label {
+ 
 		float: left;
 		width: auto;
 	}
 	
-	form#contact-us .error {
+	form#contact-us .error,	form#free-class .error
+ {
 		display: none;
 		position: absolute;
 		left: 85%;
@@ -268,7 +287,8 @@
 		box-shadow: 0 1px 1px 0 #999 !important;			
 	}
 	
-	form#contact-us .error:before {
+	form#contact-us .error:before,	form#free-class .error:before 
+ {
 		content: "";
 		position: absolute;
 		width: 28px;

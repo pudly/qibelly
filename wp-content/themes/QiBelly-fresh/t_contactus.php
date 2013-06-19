@@ -138,7 +138,7 @@ function set_html_content_type()
 	return 'text/html';
 }
 ?>	    
-<form id="contact-us" method="POST" >
+<form id="contact-us" method="POST" class="validajte">
 	<fieldset>
 <legend>Contact Message</legend>
 		<ol>
@@ -159,7 +159,7 @@ function set_html_content_type()
 	<label for="ckb_signup">Newsletter Sign Up</label><br/>
 	<input type="checkbox" id="ckb_signup" name="Form[SignUp]" /></p>-->
 	
-	<li><button id="btn_submit" value="Subscribe" type="submit">Submit</button></li>
+	<li><button id="btn_submit" value="Submit" type="submit">Submit</button></li>
 	</ol>
 	</fieldset>
 </form>

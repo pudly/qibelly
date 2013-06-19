@@ -118,6 +118,11 @@ $(function(){
 			'labelpos' : 'absolute',
 			'ajax' : false
 		});
+	// Form Validation
+		$('form#free-class').validate({
+			'labelpos' : 'absolute',
+			'ajax' : false
+		});
 
 
 });
