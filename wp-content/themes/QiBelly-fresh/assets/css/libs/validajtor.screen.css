@@ -1,0 +1,292 @@
+/************************************************
+ *
+ *  File     :  css/screen.css
+ *  Medium   :  Screen
+ *  Version  :  0.1
+ *  Website  :  
+ *  Author   :  BNOTIONS (c) 2011 // 'drej
+ *
+ ************************************************/
+
+/* global */
+
+/*    body { 
+        cursor: default;
+        background: #d4d4d4;
+        font: 14px tahoma, sans-serif;
+        color: #555;
+        text-shadow: 1px 1px 0 #eee;
+        padding: 0 0 5em 0;
+        }
+
+     image replacement 
+        .ir 
+        	{ display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+
+     clearfix 
+		form ol li:before, form ol li:after 
+			{ content: "\0020"; display: block; height: 0; overflow: hidden; }
+		form ol li:after 
+			{ clear: both; }
+		.oldie form ol li 
+			{ zoom: 1; }
+   
+     headings 
+        h1 {
+            font-weight: normal;
+            padding: 1em;
+            background: #444;
+            color: #fff;
+            font-size: 2em;
+            
+            text-shadow: 1px 1px 0 #333;
+            margin-bottom: -1em;
+            border-bottom: 1px solid #f5f5f5;
+            }
+
+     anchors 
+        a {
+            
+            }*/
+            
+/* // global */
+
+/* page structure */
+/*
+    section {
+    	width: 640px;
+    	margin: 0 auto;
+    }*/
+    
+    /* primary nav */
+/*	    header nav {
+	    	position: absolute;
+	    	z-index: 2;
+	    	top: 2.5em;
+	    	right: 2em;
+	    }
+	    
+	    header nav ul {
+	    	list-style: none;
+	    }
+	    
+	    header nav ul li {
+	    	float: left;
+	    	margin: 0 .25em;
+	    }*/
+	    
+/*	    header nav ul li a {
+	    	background: #555;
+	    	padding: .5em 1em;
+	    	
+	    	-o-border-radius: 6px;
+	    	-moz-border-radius: 6px;
+	    	-webkit-border-radius: 6px;
+	    	border-radius: 6px;
+	    	
+	    	color: #999;
+	    	text-decoration: none;
+	    	
+	    	text-shadow: 1px 1px 0 #000;
+	    }*/
+/*	    
+	    header nav ul li a:hover {
+	    	background: #777;
+	    	color: #fff;
+	    	box-shadow: 0 0 5px #333;
+	    }*/
+
+/* // page structure */
+
+/* forms */
+	form#contact-us fieldset {
+		padding: 1em 0 0 0;
+	}
+	
+	form#contact-us input[type=text],
+	form#contact-us input[type=email],
+	form#contact-us textarea,
+	form#contact-us select {
+		border: 0;
+		padding: 8px;
+		font: 14px tahoma, sans-serif;
+/*		background: #e1e1e1;*/
+		
+		-o-border-radius: 8px;
+		-moz-border-radius: 8px;
+		-webkit-border-radius: 8px;
+		border-radius: 8px;
+		
+		border-top: 1px solid #fff;
+		
+		-o-box-shadow: 0 1px 1px 1px #aaa !important;
+		-moz-box-shadow: 0 1px 1px 1px #aaa !important;
+		-webkit-box-shadow: 0 1px 1px 1px #aaa !important;
+		box-shadow: 0 1px 1px 1px #aaa !important;
+		
+		float: left;
+	}
+	
+	form#contact-us input[type=text]:focus,
+	form#contact-us input[type=email]:focus,
+	form#contact-us textarea:focus,
+	form#contact-us select:focus {
+		outline: none;
+		background: #f5f5f5;
+	}
+	
+	form#contact-us ol {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	
+	form#contact-us ol li {
+		position: relative;
+		padding: .75em 0;
+/*		border-top: 1px solid #e1e1e1;
+		border-bottom: 1px solid #ccc;*/
+	}
+	
+	form#contact-us ol li:first-child {
+		border-top: 0;
+	}
+	
+	form#contact-us ol li:last-child {
+		border-bottom: 0;
+	}
+	
+	form#contact-us ol li label {
+		float: left;
+/*		width: 10em;*/
+		text-align: right;
+		padding-right: 1em;
+		line-height: 2.5em;
+		cursor: pointer;
+	}
+	
+	form#contact-us ol li.failed label {
+		color: #c00;
+	}
+	
+	form#contact-us ol li.failed input[type=text],
+	form#contact-us ol li.failed input[type=email],
+	form#contact-us ol li.failed textarea,
+	form#contact-us ol li.failed select{
+		-o-box-shadow: 0 1px 1px 1px #c00 !important;
+		-moz-box-shadow: 0 1px 1px 1px #c00 !important;
+		-webkit-box-shadow: 0 1px 1px 1px #c00 !important;
+		box-shadow: 0 1px 1px 1px #c00 !important;		
+	}
+	
+	form#contact-us legend {
+		font-size: 1.2em;	
+		padding: 1em 2em 1em 1em;
+
+		-o-border-radius: 40px 10px 80px 20px;
+    	-moz-border-radius: 40px 10px 80px 20px;
+		-webkit-border-radius: 40px 10px 80px 20px;
+    	border-radius: 40px 10px 80px 20px;
+    	background: #fff;
+  
+  		-o-box-shadow: 0 1px 1px 1px #aaa !important;
+		-moz-box-shadow: 0 1px 1px 1px #aaa !important;
+		-webkit-box-shadow: 0 1px 1px 1px #aaa !important;
+		box-shadow: 0 1px 1px 1px #aaa !important;
+	}
+	
+	form#contact-us button {
+		font-size: 16px;
+		color: #fff;
+		padding: 10px 20px;
+		background: -moz-linear-gradient(
+			top,
+			rgb(255, 61, 0) 0%,
+			rgb(190, 1, 1) 50%,
+			rgb(121, 2, 2) 50%,
+			rgb(231, 37, 0));
+		background: -webkit-gradient(
+			linear, left top, left bottom, 
+			from(rgb(255, 61, 0)),
+			color-stop(0.50, rgb(190, 1, 1)),
+			color-stop(0.50, rgb(121, 2, 2)),
+			to(rgb(231, 37, 0)));
+		border-radius: 6px;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border: 1px solid rgb(92, 29, 17);
+		-moz-box-shadow:
+			0px 0px 0px rgba(000,000,000,0),
+			inset 0px 1px 1px rgba(255,255,255,0.5);
+		-webkit-box-shadow:
+			0px 0px 0px rgba(000,000,000,0),
+			inset 0px 1px 1px rgba(255,255,255,0.5);
+		text-shadow:
+			0px -1px 0px rgba(000,000,000,0.5),
+			0px 0px 0px rgba(255,255,255,0);
+			
+		cursor: pointer;
+		margin-left: 9.65em;
+	}
+	
+	form#contact-us input[type='checkbox'] {
+		float: left;
+		margin: 1em .5em 0 12em;
+	}
+	
+	form#contact-us input[type='checkbox'] + label {
+		float: left;
+		width: auto;
+	}
+	
+	form#contact-us .error {
+		display: none;
+		position: absolute;
+		left: 85%;
+		top: .75em;
+		background: #c00;
+		
+		line-height: 1em;
+		
+		padding: 12px 1em 12px 1em;
+		font-size: .9em;
+		
+		color: #fff;
+		text-shadow: none;
+		
+		white-space: nowrap;
+		
+		-o-border-radius: 6px;
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		z-index: 2;
+
+		-o-box-shadow: 0 1px 1px 1px #999 !important;
+		-moz-box-shadow: 0 1px 1px 1px #999 !important;
+		-webkit-box-shadow: 0 1px 1px 1px #999 !important;
+		box-shadow: 0 1px 1px 0 #999 !important;			
+	}
+	
+	form#contact-us .error:before {
+		content: "";
+		position: absolute;
+		width: 28px;
+		height: 28px;
+		left: -6px;
+		top: 50%;
+		margin-top: -14px;
+		-webkit-transform: rotate(-45deg);
+		-moz-transform: rotate(-45deg);
+		
+		background: #c00;
+		-o-border-radius: 3px;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+		
+		z-index: -1;
+
+		
+	}
+/* // forms */

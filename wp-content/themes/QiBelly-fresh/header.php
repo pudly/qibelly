@@ -21,9 +21,12 @@
 		
 		<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/bp.css">
 		<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/screen.css" media="screen">
+        <link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/libs/validajtor.screen.css" media="screen">
 	
 		<script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/modernizr-2.0.6.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>        
+        <script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery.validajtor.0.5.js"></script>
+
 
 <?php /*
         <script>window.jQuery || document.write('<script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery-1.7.2.min.js"><\/script>')</script>

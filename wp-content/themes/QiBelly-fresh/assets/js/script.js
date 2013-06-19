@@ -99,4 +99,25 @@ $(function(){
 		if(window.location.search == '?cat=1'){
 			$('header nav > ul > li').eq(1).addClass('current_page_item')
 		};
+	
+//    // External links with REL
+//	    $('a[rel="external"]').live('click', function(e) {
+//	    	e.preventDefault();
+//	    	window.open( $(this).attr('href') )
+//	    })
+//	    
+//    // Old IE Fixes
+//	    if ( $.browser.msie && $.browser.version < 9.0) {
+//	    	// :first :last child 
+//	    	$(':first-child').addClass('first-child');
+//	    	$(':last-child').addClass('last-child');
+//	    }
+	    
+	// Form Validation
+		$('form#contact-us').validate({
+			'labelpos' : 'absolute',
+			'ajax' : false
+		});
+
+
 });
