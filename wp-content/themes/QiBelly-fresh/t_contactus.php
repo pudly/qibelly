@@ -119,7 +119,7 @@ if (isset($_POST["Form"]))
 	    wp_mail($p_to, $p_subject, $p_message, $headers);
 	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
 	    
-	    $autoR_message = "<p>Thank you for contacting QiBelly. Please allow 24 to 48 hours for a response. <br/>This is auto-responder, please do not reply to this email.</p>";
+	    $autoR_message = "<p>Thank you for contacting QiBelly. Please allow 24 to 48 hours for a response. <br/>This is auto-responder, please do not reply to this email directly.</p>";
 //	if($zForm["SignUp"] != "")
 //	{
 //		$autoR_message .= "<p>If you haven't had a chance yet, <a href='http://www.qibelly.com/free-class/' >sign up</a> for the QiBelly Newsletter and get a class for free.</p>";
