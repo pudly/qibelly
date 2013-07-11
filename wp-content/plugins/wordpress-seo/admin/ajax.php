@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined('WPSEO_VERSION') ) {
+	header('HTTP/1.0 403 Forbidden');
+	die;
+}
+
 /**
  * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
  */
@@ -11,7 +16,7 @@ function wpseo_set_option() {
 		die( '-1' );
 	check_ajax_referer( 'wpseo-setoption' );
 
-	$option = $_POST['option'];
+	$option = esc_attr( $_POST['option'] );
 	if ( $option != 'page_comments' )
 		die( '-1' );
 
@@ -20,23 +25,6 @@ function wpseo_set_option() {
 }
 
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
-
-/**
- * Function used from AJAX calls, takes it variables from $_POST, dies on exit.
- */
-function wpseo_presstrends_ajax() {
-	if ( !current_user_can( 'manage_options' ) )
-		die( '-1' );
-	check_ajax_referer( 'wpseo_activate_presstrends' );
-
-	$options                = get_option( 'wpseo' );
-	$options['presstrends'] = $_POST['value'];
-
-	update_option( 'wpseo', $options );
-	die( '1' );
-}
-
-add_action( 'wp_ajax_wpseo_presstrends_ajax', 'wpseo_presstrends_ajax' );
 
 /**
  * Function used to remove the admin notices for several purposes, dies on exit.

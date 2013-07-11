@@ -13,13 +13,13 @@
 
 <link rel="home" href="index.html" />
 	<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="rss/index6332.html?section=aboutme" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo get_bloginfo('template_directory');?>/_css/qibelly.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo get_bloginfo('template_directory');?>/_css/qibelly.css" />    
 	
 
    <meta name="Description" content="QiBelly Toronto. Specializing in Reiki, Meditation, QiGong & Chinese Martial Arts.">
 
 <meta name="Keywords" content="QiBelly, Qi Belly, Paul Lara, Reiki, Meditation, QiGong, Chinese Martial Arts, Martial Art, Kung Fu, Toronto, Ontario, GTA">
-<script type="text/javascript" src="<?php echo get_bloginfo('template_directory');?>/_js/iepngfix_tilebg.js"></script>	
+<script type="text/javascript" src="<?php echo get_bloginfo('template_directory');?>/_js/iepngfix_tilebg.js"></script>
 </head>
 
 <?php 

@@ -47,9 +47,6 @@ class WcsOutputController
       elseif ( $attr['layout'] == 'list' ) {
         $view = WCS_PLUGIN_DIR . '/views/WcsOutputListView.php';
       }
-      elseif ( $attr['layout'] == 'qibelly-list' ) {
-        $view = WCS_PLUGIN_DIR . '/views/WcsOutputQiBellyListView.php';
-      }
     }
     else {
       $view = WCS_PLUGIN_DIR . '/views/WcsOutputView.php';
