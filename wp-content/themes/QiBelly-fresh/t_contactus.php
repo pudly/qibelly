@@ -73,7 +73,7 @@ if (isset($_POST["Form"]))
 {
 	import_request_variables("p", "z");
 	$missingfields = array();
-        $required = array("Name"=>"Name", "Email"=>"Email", "Message"=>"Message");	
+        $required = array("Name"=>"Name", "Email"=>"Email", "Message"=>"Message", "Human"=>"Human");	
 	
         while (list($var, $val) = each($required)) {
             if (isset($zForm[$var]) && $zForm[$var] != '') {
@@ -84,13 +84,22 @@ if (isset($_POST["Form"]))
         }
 	
 	
-        if (count($missingfields)) {
-            print "You missed out one or more fields:<br />";
+         if (trim(strtolower($zForm["Human"])) != "white") {
+            print "Please fill out a colour in the last field to continue.<br />If you cannot get through please call Paul directly at 416-877-4106.<br />";
 
             while(list($var, $val) = each($missingfields)) {
                 print $val . "<br />";
             }
-        } else {
+        } 
+	else if (count($missingfields))
+	{
+		print "You missed out one or more fields:<br />";
+
+            while(list($var, $val) = each($missingfields)) {
+                print $val . "<br />";
+            }
+	}
+	else {
             //print "Form passed!<br />";
             print "Thank you for contacting us. We will be get back to you as soon as possible!<br />";
             //var_dump($zForm);
@@ -119,15 +128,20 @@ if (isset($_POST["Form"]))
 	    wp_mail($p_to, $p_subject, $p_message, $headers);
 	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
 	    
-	    $autoR_message = "<p>Thank you for contacting QiBelly. Please allow 24 to 48 hours for a response. <br/>This is auto-responder, please do not reply to this email.</p>";
-//	if($zForm["SignUp"] != "")
-//	{
-//		$autoR_message .= "<p>If you haven't had a chance yet, <a href='http://www.qibelly.com/free-class/' >sign up</a> for the QiBelly Newsletter and get a class for free.</p>";
-//	}
+	    $autoR_message = "<p>Thank you for contacting QiBelly. Please allow 24 to 48 hours for a response. <br/>This is auto-responder, please do not reply to this email directly.</p>";
+	
 	    $headers = 'From: Contact QiBelly <noreply@qibelly-test.com>' . "\r\n";
 	    add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 	    wp_mail($zForm["Email"], "Contact QiBelly - Thank You", $autoR_message, $headers);
 	    remove_filter( 'wp_mail_content_type', 'set_html_content_type' ); // reset content-type to to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+	    
+//	    
+//		if($zForm["SignUp"] != "")
+//		{
+//			//$autoR_message .= "<p>If you haven't had a chance yet, <a href='http://www.qibelly.com/free-class/' >sign up</a> for the QiBelly Newsletter and get a class for free.</p>";
+//			header("Location: " . get_bloginfo('template_directory') ."subscribe.php");
+//		}
+		
             exit;
         }
 }
@@ -154,6 +168,15 @@ function set_html_content_type()
 	<li>
 	<label for="param_message">Message</label>
 	<textarea id="param_message" rows="4" cols="50" name="Form[Message]" data-validation='{"required":true, "message":"Please enter"}' placeholder="message"></textarea></li>
+	<li>
+	<label for="param_human">
+	Colour of snow
+	</label>
+	<input type="text" id="param_human" name="Form[Human]" data-validation='{"required":true, "message":"Are you human?"}' size="20"/></li>
+<!--	<li>
+	<label for="param_signup">Newsletter Sign Up</label>
+	<input type="checkbox" id="param_signup" name="Form[SignUp]" />
+	</li>-->
 	
 <!--	<p>
 	<label for="ckb_signup">Newsletter Sign Up</label><br/>
