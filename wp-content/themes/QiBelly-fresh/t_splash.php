@@ -26,11 +26,11 @@ Template Name: Splash
                     </a>
                 </li>-->
   	    		<li>
-  	    	    <img src="<?php echo get_bloginfo('template_directory');?>/assets/img/qibelly-no-nonsense.png" />
+  	    	    <img src="<?php echo get_bloginfo('template_directory');?>/assets/img/qibelly-no-nonsense.PNG" />
   	    		</li>
 <li>
                      <a class="fancybox fancybox.iframe" id="example6" title="" href="http://www.youtube.com/embed/6cC3kkw48E8?autoplay=1">
-  	    	    <img src="<?php echo get_bloginfo('template_directory');?>/assets/img/qibelly-meditation.png" />
+  	    	    <img src="<?php echo get_bloginfo('template_directory');?>/assets/img/qibelly-meditation.PNG" />
                      </a>
   	    		</li>
                 
