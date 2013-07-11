@@ -3,6 +3,11 @@
  * @package Admin
  */
 
+if ( !defined( 'WPSEO_VERSION' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die;
+}
+
 /**
  * Class that holds most of the admin functionality for WP SEO.
  */
@@ -24,7 +29,8 @@ class WPSEO_Admin {
 
 		if ( $this->grant_access() ) {
 			add_action( 'admin_init', array( $this, 'options_init' ) );
-			add_action( 'admin_menu', array( $this, 'register_settings_page' ) );
+			// Needs the lower than default priority so other plugins can hook underneath it without issue.
+			add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 			add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
 
 			add_filter( 'plugin_action_links', array( $this, 'add_action_link' ), 10, 2 );
@@ -42,10 +48,37 @@ class WPSEO_Admin {
 		add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
 		add_action( 'personal_options_update', array( $this, 'process_user_option_update' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'process_user_option_update' ) );
+		add_action( 'personal_options_update', array( $this, 'update_user_profile' ) );
+		add_action( 'edit_user_profile_update', array( $this, 'update_user_profile' ) );
+
 		add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
 
-		if ( isset( $options['presstrends'] ) && $options['presstrends'] )
-			add_action( 'admin_init', array( $this, 'presstrends_plugin' ), 99 );
+		add_action( 'update_option_wpseo_titles', array( $this, 'clear_cache' ) );
+		add_action( 'update_option_wpseo', array( $this, 'clear_cache' ) );
+
+		add_action( 'update_option_wpseo_permalinks', array( $this, 'clear_rewrites' ) );
+		add_action( 'update_option_wpseo_xml', array( $this, 'clear_rewrites' ) );
+
+		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
+		add_action( 'switch_theme', array( $this, 'switch_theme' ) );
+	}
+
+	/**
+	 * Clears the cache
+	 */
+	function clear_cache() {
+		if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+			w3tc_pgcache_flush();
+		} else if ( function_exists( 'wp_cache_clear_cache' ) ) {
+			wp_cache_clear_cache();
+		}
+	}
+
+	/**
+	 * Clear rewrites
+	 */
+	function clear_rewrites() {
+		delete_option( 'rewrite_rules' );
 	}
 
 	/**
@@ -60,8 +93,11 @@ class WPSEO_Admin {
 		register_setting( 'yoast_wpseo_xml_sitemap_options', 'wpseo_xml' );
 		register_setting( 'yoast_wpseo_social_options', 'wpseo_social' );
 
-		if ( function_exists( 'is_multisite' ) && is_multisite() )
+		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+			if ( get_option( 'wpseo' ) == '1pseo_social' )
+				delete_option( 'wpseo' );
 			register_setting( 'yoast_wpseo_multisite_options', 'wpseo_multisite' );
+		}
 	}
 
 	function multisite_defaults() {
@@ -69,8 +105,8 @@ class WPSEO_Admin {
 		if ( function_exists( 'is_multisite' ) && is_multisite() && !is_array( $option ) ) {
 			$options = get_site_option( 'wpseo_ms' );
 			if ( is_array( $options ) && isset( $options['defaultblog'] ) && !empty( $options['defaultblog'] ) && $options['defaultblog'] != 0 ) {
-				foreach ( get_wpseo_options_arr() as $option ) {
-					update_option( $option, get_blog_option( $options['defaultblog'], $option ) );
+				foreach ( get_wpseo_options_arr() as $wpseo_option ) {
+					update_option( $wpseo_option, get_blog_option( $options['defaultblog'], $wpseo_option ) );
 				}
 			}
 			$option['ms_defaults_set'] = true;
@@ -103,7 +139,7 @@ class WPSEO_Admin {
 	 * @global array $submenu used to change the label on the first item.
 	 */
 	function register_settings_page() {
-		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png' );
+		add_menu_page( __( 'WordPress SEO Configuration', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'manage_options', 'wpseo_dashboard', array( $this, 'config_page' ), WPSEO_URL . 'images/yoast-icon.png', '99.31337' );
 		add_submenu_page( 'wpseo_dashboard', __( 'Titles &amp; Metas', 'wordpress-seo' ), __( 'Titles &amp; Metas', 'wordpress-seo' ), 'manage_options', 'wpseo_titles', array( $this, 'titles_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'Social', 'wordpress-seo' ), __( 'Social', 'wordpress-seo' ), 'manage_options', 'wpseo_social', array( $this, 'social_page' ) );
 		add_submenu_page( 'wpseo_dashboard', __( 'XML Sitemaps', 'wordpress-seo' ), __( 'XML Sitemaps', 'wordpress-seo' ), 'manage_options', 'wpseo_xml', array( $this, 'xml_sitemaps_page' ) );
@@ -222,7 +258,7 @@ class WPSEO_Admin {
 		if ( isset( $options['ignore_blog_public_warning'] ) && $options['ignore_blog_public_warning'] == 'ignore' )
 			return;
 		echo "<div id='message' class='error'>";
-		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Privacy settings%s and set your blog visible to everyone.", 'wordpress-seo' ), "<a href='options-privacy.php'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
+		echo "<p><strong>" . __( "Huge SEO Issue: You're blocking access to robots.", 'wordpress-seo' ) . "</strong> " . sprintf( __( "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.", 'wordpress-seo' ), "<a href='".admin_url('options-reading.php')."'>", "</a>" ) . " <a href='javascript:wpseo_setIgnore(\"blog_public_warning\",\"message\",\"" . wp_create_nonce( 'wpseo-ignore' ) . "\");' class='button'>" . __( "I know, don't bug me.", 'wordpress-seo' ) . "</a></p></div>";
 	}
 
 	/**
@@ -256,24 +292,29 @@ class WPSEO_Admin {
 	 * @param int $user_id of the updated user
 	 */
 	function process_user_option_update( $user_id ) {
-		update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? $_POST['wpseo_author_title'] : '' ) );
-		update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? $_POST['wpseo_author_metadesc'] : '' ) );
-		update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? $_POST['wpseo_author_metakey'] : '' ) );
+		if ( isset( $_POST['wpseo_author_title'] ) ) {
+			check_admin_referer( 'wpseo_user_profile_update', 'wpseo_nonce' );
+			update_user_meta( $user_id, 'wpseo_title', ( isset( $_POST['wpseo_author_title'] ) ? esc_html( $_POST['wpseo_author_title'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metadesc', ( isset( $_POST['wpseo_author_metadesc'] ) ? esc_html( $_POST['wpseo_author_metadesc'] ) : '' ) );
+			update_user_meta( $user_id, 'wpseo_metakey', ( isset( $_POST['wpseo_author_metakey'] ) ? esc_html( $_POST['wpseo_author_metakey'] ) : '' ) );
+		}
 	}
 
 	/**
-	 * Filter the $contactmethods array and add Google+ and Twitter.
+	 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
 	 *
-	 * These are used with the rel="author" and Twitter cards implementation.
+	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
 	 * @param array $contactmethods currently set contactmethods.
 	 * @return array $contactmethods with added contactmethods.
 	 */
 	function update_contactmethods( $contactmethods ) {
 		// Add Google+
-		$contactmethods['googleplus'] = 'Google+';
+		$contactmethods['googleplus'] = __( "Google+", 'wordpress-seo' );
 		// Add Twitter
 		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
+		// Add Facebook
+		$contactmethods['facebook'] = __( 'Facebook profile URL', 'wordpress-seo' );
 
 		return $contactmethods;
 	}
@@ -284,33 +325,36 @@ class WPSEO_Admin {
 	 * @param object $user
 	 */
 	function user_profile( $user ) {
+
 		if ( !current_user_can( 'edit_users' ) )
 			return;
 
 		$options = get_wpseo_options();
+
+		wp_nonce_field( 'wpseo_user_profile_update', 'wpseo_nonce' );
 		?>
-	<h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
-	<table class="form-table">
-		<tr>
-			<th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><input class="regular-text" type="text" name="wpseo_author_title"
-					   value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/></td>
-		</tr>
-		<tr>
-			<th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><textarea rows="3" cols="30"
-						  name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
-			</td>
-		</tr>
+    <h3 id="wordpress-seo"><?php _e( "WordPress SEO settings", 'wordpress-seo' ); ?></h3>
+    <table class="form-table">
+        <tr>
+            <th><?php _e( "Title to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_title"
+                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_title', $user->ID ) ); ?>"/></td>
+        </tr>
+        <tr>
+            <th><?php _e( "Meta description to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><textarea rows="3" cols="30"
+                          name="wpseo_author_metadesc"><?php echo esc_html( get_the_author_meta( 'wpseo_metadesc', $user->ID ) ); ?></textarea>
+            </td>
+        </tr>
 		<?php     if ( isset( $options['usemetakeywords'] ) && $options['usemetakeywords'] ) { ?>
-		<tr>
-			<th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
-			<td><input class="regular-text" type="text" name="wpseo_author_metakey"
-					   value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/></td>
-		</tr>
+        <tr>
+            <th><?php _e( "Meta keywords to use for Author page", 'wordpress-seo' ); ?></th>
+            <td><input class="regular-text" type="text" name="wpseo_author_metakey"
+                       value="<?php echo esc_attr( get_the_author_meta( 'wpseo_metakey', $user->ID ) ); ?>"/></td>
+        </tr>
 		<?php } ?>
-	</table>
-	<br/><br/>
+    </table>
+    <br/><br/>
 	<?php
 	}
 
@@ -406,6 +450,8 @@ class WPSEO_Admin {
 			update_option( 'wpseo_titles', $metaopt );
 
 			delete_option( 'wpseo_indexation' );
+
+			wpseo_title_test();
 		}
 
 		// Clean up the wrong wpseo options
@@ -427,13 +473,42 @@ class WPSEO_Admin {
 		// Fix wrongness created by buggy version 1.2.2
 		if ( version_compare( $current_version, '1.2.4', '<' ) ) {
 			$options = get_option( 'wpseo_titles' );
-			if ( $options['title-home'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
+			if ( is_array( $options ) && isset( $options['title-home'] ) && $options['title-home'] == '%%sitename%% - %%sitedesc%% - 12345' ) {
 				$options['title-home'] = '%%sitename%% - %%sitedesc%%';
 				update_option( 'wpseo_titles', $options );
 			}
 		}
-		wpseo_title_test();
 
+		if ( version_compare( $current_version, '1.2.8', '<' ) ) {
+			$options = get_option( 'wpseo' );
+			if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
+				$options['yoast_tracking'] = 'on';
+				unset( $options['presstrends'] );
+				update_option( 'wpseo', $options );
+			}
+		}
+
+		if ( version_compare( $current_version, '1.2.8.2', '<' ) ) {
+			$options = get_option( 'wpseo' );
+			if ( is_array( $options ) && isset( $options['presstrends'] ) ) {
+				$options['yoast_tracking'] = 'on';
+				unset( $options['presstrends'] );
+			}
+			if ( is_array( $options ) && isset( $options['presstrends_popup'] ) ) {
+				$options['tracking_popup'] = 'on';
+				unset( $options['presstrends_popup'] );
+			}
+			update_option( 'wpseo', $options );
+		}
+
+		if ( version_compare( $current_version, '1.3.2', '<' ) ) {
+			$options = get_option( 'wpseo_xml' );
+
+			$options['post_types-attachment-not_in_sitemap'] = true;
+			update_option( 'wpseo_xml', $options );
+		}
+
+		$options            = get_option( 'wpseo' );
 		$options['version'] = WPSEO_VERSION;
 		update_option( 'wpseo', $options );
 	}
@@ -496,64 +571,23 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * PressTrends tracking
+	 * Log the timestamp when a user profile has been updated
 	 */
-	function presstrends_plugin() {
-
-		// PressTrends Account API Key
-		$api_key = 'n6svrrn650hyckud8ghhs1o497hcm0g1o3s5';
-		$auth    = 'dhs4fy3nhnx5x0y6gkdfwt7fz2wprguqk';
-
-		// Start of Metrics
-		global $wpdb;
-		$data = get_transient( 'presstrends_cache_data' );
-		if ( !$data || $data == '' ) {
-			$api_base = 'http://api.presstrends.io/index.php/api/pluginsites/update/auth/';
-			$url      = $api_base . $auth . '/api/' . $api_key . '/';
-
-			$count_posts    = wp_count_posts();
-			$count_pages    = wp_count_posts( 'page' );
-			$comments_count = wp_count_comments();
-
-			// wp_get_theme was introduced in 3.4, for compatibility with older versions, let's do a workaround for now.
-			if ( function_exists( 'wp_get_theme' ) ) {
-				$theme_data = wp_get_theme();
-				$theme_name = urlencode( $theme_data->Name );
-			} else {
-				$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-				$theme_name = $theme_data['Name'];
-			}
-
-			$plugin_name = '&';
-			foreach ( get_plugins() as $plugin_info ) {
-				$plugin_name .= $plugin_info['Name'] . '&';
-			}
-			$plugin_data         = get_plugin_data( WPSEO_PATH . 'wp-seo.php' );
-			$posts_with_comments = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type='post' AND comment_count > 0" );
-			$data                = array(
-				'url'             => stripslashes( str_replace( array( 'http://', '/', ':' ), '', site_url() ) ),
-				'posts'           => $count_posts->publish,
-				'pages'           => $count_pages->publish,
-				'comments'        => $comments_count->total_comments,
-				'approved'        => $comments_count->approved,
-				'spam'            => $comments_count->spam,
-				'pingbacks'       => $wpdb->get_var( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_type = 'pingback'" ),
-				'post_conversion' => ( $count_posts->publish > 0 && $posts_with_comments > 0 ) ? number_format( ( $posts_with_comments / $count_posts->publish ) * 100, 0, '.', '' ) : 0,
-				'theme_version'   => $plugin_data['Version'],
-				'theme_name'      => $theme_name,
-				'site_name'       => str_replace( ' ', '', get_bloginfo( 'name' ) ),
-				'plugins'         => count( get_option( 'active_plugins' ) ),
-				'plugin'          => urlencode( $plugin_name ),
-				'wpversion'       => get_bloginfo( 'version' ),
-			);
-
-			foreach ( $data as $k => $v ) {
-				$url .= $k . '/' . $v . '/';
-			}
-			wp_remote_get( $url );
-			set_transient( 'presstrends_cache_data', $data, 60 * 60 * 24 );
+	function update_user_profile($user_id) {
+		if ( current_user_can( 'edit_user', $user_id ) ) {
+			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 	}
+
+	/**
+	 * Log the updated timestamp for user profiles when theme is changed
+	 */
+	function switch_theme() {
+		foreach ( get_users( array( 'who' => 'authors' ) ) as $user ) {
+			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
+		}
+	}
+
 }
 
 // Globalize the var first as it's needed globally.

@@ -1510,3 +1510,14 @@ table.wcs-schedule a:hover {
     color: #e1110d;
     text-decoration: underline;
 }
+
+/*slider*/
+
+    
+    #content .primary  ul.slides {
+        margin: 0;
+    }
+    
+    #content .primary  ul.slides li {
+        margin: 0;
+    }
