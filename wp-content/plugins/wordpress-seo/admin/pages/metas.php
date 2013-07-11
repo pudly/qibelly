@@ -3,14 +3,9 @@
  * @package Admin
  */
 
-if ( !defined('WPSEO_VERSION') ) {
-	header('HTTP/1.0 403 Forbidden');
-	die;
-}
-
 global $wpseo_admin_pages;
 
-$options = get_wpseo_options();
+$options = get_option( 'wpseo_titles' );
 
 ?>
 <div class="wrap">
@@ -18,6 +13,14 @@ $options = get_wpseo_options();
 
 if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset( $_GET[ 'settings-updated' ] ) && $_GET[ 'settings-updated' ] == 'true' ) ) {
 	$msg = __( 'Settings updated', 'wordpress-seo' );
+
+	if ( function_exists( 'w3tc_pgcache_flush' ) ) {
+		w3tc_pgcache_flush();
+		$msg .= __( ' &amp; W3 Total Cache Page Cache flushed', 'wordpress-seo' );
+	} else if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+		$msg .= __( ' &amp; WP Super Cache flushed', 'wordpress-seo' );
+	}
 
 	echo '<div id="message" style="width:94%;" class="message updated"><p><strong>' . $msg . '.</strong></p></div>';
 }
@@ -30,8 +33,8 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 
 <h2 id="wpseo-title"><?php _e( "Yoast WordPress SEO: Titles &amp; Metas", 'wordpress-seo' ); ?></h2>
 
-<div id="wpseo_content_top" class="postbox-container">
-<div class="metabox-holder" style="max-width: 650px; float: left;">
+<div id="wpseo_content_top" class="postbox-container" style="width:75%;">
+<div class="metabox-holder">
 <div class="meta-box-sortables">
 
 <h2 class="nav-tab-wrapper" id="wpseo-tabs">
@@ -43,7 +46,6 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 	<a class="nav-tab" id="template_help-tab" href="#top#template_help"><?php _e( 'Help', 'wordpress-seo' );?></a>
 </h2>
 
-<div class="tabwrapper>">
 <div id="general" class="wpseotab">
 	<?php
 	echo '<form action="' . admin_url( 'options.php' ) . '" method="post" id="wpseo-conf">';
@@ -89,13 +91,12 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 			echo '<p>' . sprintf( __( 'You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s', 'wordpress-seo' ), '<a href="' . get_edit_post_link( get_option( 'page_for_posts' ) ) . '">', '</a>' ) . '</p>';
 	}
 
-	// TODO: Please remove...Depreciated: moved over to the social tab
-	// echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
-	// echo '<label class="select" for="">' . __( 'Author highlighting', 'wordpress-seo' ) . ':</label>';
-	// wp_dropdown_users( array( 'show_option_none' => __( "Don't show", 'wordpress-seo' ), 'name' => 'wpseo_titles[plus-author]', 'class' => 'select', 'selected' => isset( $options[ 'plus-author' ] ) ? $options[ 'plus-author' ] : '' ) );
-	// echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
-	// echo $wpseo_admin_pages->textinput( 'plus-publisher-old', __( 'Google Publisher Page', 'wordpress-seo' ) );
-	// echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
+	echo '<h2>' . __( 'Author metadata', 'wordpress-seo' ) . '</h2>';
+	echo '<label class="select" for="">' . __( 'Author highlighting', 'wordpress-seo' ) . ':</label>';
+	wp_dropdown_users( array( 'show_option_none' => "Don't show", 'name' => 'wpseo_titles[plus-author]', 'class' => 'select', 'selected' => isset( $options[ 'plus-author' ] ) ? $options[ 'plus-author' ] : '' ) );
+	echo '<p class="desc label">' . __( 'Choose the user that should be used for the <code>rel="author"</code> on the blog homepage. Make sure the user has filled out his/her Google+ profile link on their profile page.', 'wordpress-seo' ) . '</p>';
+	echo $wpseo_admin_pages->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );
+	echo '<p class="desc label">' . __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) . '</p>';
 	?>
 </div>
 <div id="post_types" class="wpseotab">
@@ -104,46 +105,41 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 		if ( isset( $options[ 'redirectattachment' ] ) && $options[ 'redirectattachment' ] && $posttype == 'attachment' )
 			continue;
 		$name = $posttype->name;
-		echo '<h4 id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $posttype->labels->name ) ) . '</h4>';
+		echo '<h4 id="' . $name . '">' . ucfirst( $posttype->labels->name ) . '</h4>';
 		echo $wpseo_admin_pages->textinput( 'title-' . $name, __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-' . $name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
 			echo $wpseo_admin_pages->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-		echo $wpseo_admin_pages->checkbox( 'noauthorship-' . $name, __( 'Don\'t show <code>rel="author"</code>', 'wordpress-seo' ), __( 'Authorship', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), __( 'WordPress SEO Meta Box', 'wordpress-seo' ) );
 		echo '<br/>';
 	}
 
-	$post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
+	echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
+	echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
 
-	if ( count( $post_types ) > 0 ) {
-		echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
-		echo '<p>' . __( 'Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages.', 'wordpress-seo' ) . '</p>';
+	foreach ( get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' ) as $pt ) {
+		if ( !$pt->has_archive )
+			continue;
 
-		foreach ( $post_types as $pt ) {
-			if ( !$pt->has_archive )
-				continue;
+		$name = $pt->name;
 
-			$name = $pt->name;
-
-			echo '<h4>' . esc_html( ucfirst( $pt->labels->name ) ) . '</h4>';
-			echo $wpseo_admin_pages->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), '', 'metadesc' );
-			if ( isset( $options[ 'breadcrumbs-enable' ] ) && $options[ 'breadcrumbs-enable' ] )
-				echo $wpseo_admin_pages->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs Title', 'wordpress-seo' ) );
-			echo $wpseo_admin_pages->checkbox( 'noindex-ptarchive-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-		}
-		unset( $pt, $post_type );
+		echo '<h4>' . ucfirst( $pt->labels->name ) . '</h4>';
+		echo $wpseo_admin_pages->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), '', 'metadesc' );
+		if ( isset( $options[ 'breadcrumbs-enable' ] ) && $options[ 'breadcrumbs-enable' ] )
+			echo $wpseo_admin_pages->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs Title', 'wordpress-seo' ) );
+		echo $wpseo_admin_pages->checkbox( 'noindex-ptarchive-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
 	}
+	unset( $pt, $post_type );
 
 	?>
 </div>
 <div id="taxonomies" class="wpseotab">
 	<?php
 	foreach ( get_taxonomies( array( 'public' => true ), 'objects' ) as $tax ) {
-		echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ). '</h4>';
+		echo '<h4>' . $tax->labels->name . '</h4>';
 		echo $wpseo_admin_pages->textinput( 'title-' . $tax->name, __( 'Title template', 'wordpress-seo' ) );
 		echo $wpseo_admin_pages->textarea( 'metadesc-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), '', 'metadesc' );
 		if ( isset( $options[ 'usemetakeywords' ] ) && $options[ 'usemetakeywords' ] )
@@ -192,7 +188,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%date%%</th>
 				<td>' . __( 'Replaced with the date of the post/page', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%title%%</th>
 				<td>' . __( 'Replaced with the title of the post/page', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -200,7 +196,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%sitename%%</th>
 				<td>' . __( 'The site\'s name', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%sitedesc%%</th>
 				<td>' . __( 'The site\'s tagline / description', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -208,7 +204,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%excerpt%%</th>
 				<td>' . __( 'Replaced with the post/page excerpt (or auto-generated if it does not exist)', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%excerpt_only%%</th>
 				<td>' . __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -216,7 +212,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%tag%%</th>
 				<td>' . __( 'Replaced with the current tag/tags', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%category%%</th>
 				<td>' . __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -224,7 +220,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%category_description%%</th>
 				<td>' . __( 'Replaced with the category description', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%tag_description%%</th>
 				<td>' . __( 'Replaced with the tag description', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -232,7 +228,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%term_description%%</th>
 				<td>' . __( 'Replaced with the term description', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%term_title%%</th>
 				<td>' . __( 'Replaced with the term name', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -240,7 +236,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%pt_single%%</th>
 				<td>' . __( 'Replaced with the post type single label', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%pt_plural%%</th>
 				<td>' . __( 'Replaced with the post type plural label', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -248,7 +244,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%modified%%</th>
 				<td>' . __( 'Replaced with the post/page modified time', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%id%%</th>
 				<td>' . __( 'Replaced with the post/page ID', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -256,7 +252,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%name%%</th>
 				<td>' . __( 'Replaced with the post/page author\'s \'nicename\'', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%userid%%</th>
 				<td>' . __( 'Replaced with the post/page author\'s userid', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -273,46 +269,38 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<td>' . __( 'Replaced with the current date', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr class="alt">
-				<th>%%currentday%%</th>
-				<td>' . __( 'Replaced with the current day', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
 				<th>%%currentmonth%%</th>
 				<td>' . __( 'Replaced with the current month', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%currentyear%%</th>
 				<td>' . __( 'Replaced with the current year', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%page%%</th>
 				<td>' . __( 'Replaced with the current page number (i.e. page 2 of 4)', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%pagetotal%%</th>
 				<td>' . __( 'Replaced with the current page total', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%pagenumber%%</th>
 				<td>' . __( 'Replaced with the current page number', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr class="alt">
+			<tr>
 				<th>%%caption%%</th>
 				<td>' . __( 'Attachment caption', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%focuskw%%</th>
 				<td>' . __( 'Replaced with the posts focus keyword', 'wordpress-seo' ) . '</td>
-			</tr>
-			<tr>
-				<th>%%term404%%</th>
-				<td>' . __( 'Replaced with the slug which caused the 404', 'wordpress-seo' ) . '</td>
 			</tr>
 			<tr>
 				<th>%%cf_&lt;custom-field-name&gt;%%</th>
 				<td>' . __( 'Replaced with a posts custom field value', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%ct_&lt;custom-tax-name&gt;%%</th>
 				<td>' . __( 'Replaced with a posts custom taxonomies, comma separated.', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -320,7 +308,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 				<th>%%ct_desc_&lt;custom-tax-name&gt;%%</th>
 				<td>' . __( 'Replaced with a custom taxonomoies description', 'wordpress-seo' ) . '</td>
 			</tr>
-			<tr>
+			<tr class="alt">
 				<th>%%sep%%</th>
 				<td>' . __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ) . '</td>
 			</tr>
@@ -328,6 +316,7 @@ if ( ( isset( $_GET[ 'updated' ] ) && $_GET[ 'updated' ] == 'true' ) || ( isset(
 
 	echo '<h2>' . __( 'Variables', 'wordpress-seo' ) . '</h2>';
 	echo $content;
-	echo '</div>';
-	$wpseo_admin_pages->admin_footer();
-	echo '</div>';
+	?>
+</div>
+<?php
+$wpseo_admin_pages->admin_footer();

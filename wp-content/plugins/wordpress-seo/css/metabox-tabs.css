@@ -97,8 +97,7 @@ ul.wpseo-metabox-tabs li {
 	line-height: 15px !important;
 	font-size: 13px !important;
 	font-style: normal;
-	width: auto;
-    max-width: 520px;
+	width: 540px !important;
 }
 
 #wpseosnippet td {
@@ -170,7 +169,7 @@ ul.wpseo-metabox-tabs li {
 
 table.wpseoanalysis th {
 	text-align: left;
-	font-size: 14px;
+	font-weight: 14px;
 	padding: 15px 0 5px 0;
 }
 
@@ -179,7 +178,7 @@ table.wpseoanalysis th.first {
 }
 
 table.wpseoanalysis td {
-	font-size: 13px;
+	font-weight: 13px;
 	line-height: 16px;
 	margin: 5px 0;
 }
@@ -283,7 +282,6 @@ table.wpseoanalysis td.score {
 	background-image: url(../images/score_buttons.png);
 	background-repeat: no-repeat;
 	padding: 0 0 0 0;
-	vertical-align: bottom;
 }
 .wpseo_score_img.good {
 	background-position: -2px -2px;
@@ -302,8 +300,4 @@ table.wpseoanalysis td.score {
 }
 .wpseo_score_img.noindex {
 	background-position: -146px -2px;
-}
-
-img.yoast_help {
-    cursor: pointer;
 }
