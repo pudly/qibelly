@@ -2,7 +2,7 @@
 
 /*
 
-Template Name: Splash
+Template Name: Splash1
 
 */
 

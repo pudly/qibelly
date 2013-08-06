@@ -2,7 +2,7 @@
 
 /*
 
-Template Name: Splash
+Template Name: Splash2
 
 */
 
@@ -20,7 +20,11 @@ Template Name: Splash
 					<li class="red">A no-nonsense<br/> approach to<br/> health and<br/> wellness</li>
 
 				</ul>
-
+                <div>
+                    <a class="fancybox fancybox.iframe" id="example6" title="QiBelly Project: <a href='http://www.someclient.com'>View  Videos</a>" href="http://www.youtube.com/embed/6cC3kkw48E8?autoplay=1">
+  	    	    <img width="100%" src="<?php echo get_bloginfo('template_directory');?>/assets/img/qibelly-homepage-vidmeditation.jpg" />
+                     </a>
+                </div>
 				<div class="intro">
 
 				<?php
@@ -68,3 +72,33 @@ echo $page_object->post_excerpt;
 <?php get_sidebar('right'); ?>
 
 <?php get_footer(); ?>
+
+
+<script>
+$(document).ready(function() {
+//              $('.flexslider').flexslider({
+//                animation: "slide"
+//              });
+              $(".fancybox").fancybox({
+				//wrapCSS    : 'fancybox-custom',
+				closeClick : true,
+
+				//openEffect : 'none',
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					overlay : {
+						css : {
+							'background' : 'rgba(238,238,238,0.85)'
+						}
+					}
+				}
+			});
+
+});
+            
+            //<a class="gallery" href="delete/big.png" ><img src="delete/thumb.png" width="115" height="115" alt="" /></a>
+
+</script>

@@ -1,6 +1,6 @@
 			<section class="secondary">
 
-				<a href="<?php echo get_permalink(38);?>" title="Learn more about Paul Lara"><img src="<?php echo get_bloginfo('template_directory');?>/assets/img/mugshot.png" alt="Paul Lara"></a>
+				<a href="<?php echo get_permalink(38);?>" title="Learn more about Paul Lara"><img src="<?php echo get_bloginfo('template_directory');?>/assets/img/zengarden.png" alt="Paul Lara"></a>
 
 
 
