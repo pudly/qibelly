@@ -257,6 +257,42 @@ function qib_faqs_init() {
 }
 add_action( 'init', 'qib_faqs_init' );
 
+//add faq
+function qib_videos_init() {
+  $labels = array(
+    'name' => _x('Videos', 'videos'),
+    'singular_name' => _x('Video', 'video'),
+    'add_new' => _x('Add New', 'video'),
+    'add_new_item' => __('Add New Video'),
+    'edit_item' => __('Edit Video'),
+    'new_item' => __('New Video'),
+    'all_items' => __('All Video'),
+    'view_item' => __('View Video'),
+    'search_items' => __('Search Videos'),
+    'not_found' =>  __('No Videos found'),
+    'not_found_in_trash' => __('No Videos found in Trash'), 
+    'parent_item_colon' => '',
+    'menu_name' => 'Videos'
+
+  );
+  $args = array(
+    'labels' => $labels,
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true, 
+    'show_in_menu' => true, 
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true, 
+    'hierarchical' => false,
+    'menu_position' => null,
+    'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+  ); 
+  register_post_type('video',$args);
+}
+add_action( 'init', 'qib_videos_init' );
+
 class Walker_Secondary_Nav extends Walker_page {
 function start_el(&$output, $page, $depth, $args, $current_page) {
     if ( $depth )
