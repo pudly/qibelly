@@ -10,8 +10,6 @@
 		<meta http-equiv="imagetoolbar" content="no">
 						
 		<meta name="Author" content="(c)2012 - QiBelly">
-        
-        <meta property="fb:app_id" content="220051994784318"/>
 		
 <?php
         wp_head();
@@ -21,15 +19,9 @@
 		
 		<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/bp.css">
 		<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/screen.css" media="screen">
-        <link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/libs/validajtor.screen.css" media="screen">        
-        <!--<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/libs/flexslider.css" media="screen" />-->
-        <link rel="stylesheet" href="<?php echo get_bloginfo('template_directory');?>/assets/css/libs/jquery.fancybox.css?v=2.1.5" media="screen" />
-
+	
 		<script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/modernizr-2.0.6.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>        
-        <script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery.validajtor.0.5.js"></script>
-        <!--<script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery.flexslider.js"></script>-->
-        <script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery.fancybox.pack.js?v=2.1.5"></script>	
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
 <?php /*
         <script>window.jQuery || document.write('<script src="<?php echo get_bloginfo('template_directory');?>/assets/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
@@ -51,9 +43,6 @@ if(is_single()){
             break;
         case "post": 
             $page_class = "blog";
-            break;   
-        case "video": 
-            $page_class = "video";
             break;   
     }
 }
@@ -105,8 +94,7 @@ if($post->post_parent == 6){
             'date_format'  => get_option('date_format'),
             'child_of'     => 0,
             'exclude'      => '221, 214, 219, 224, 226, 333',
-            //'include'      => '4,26,34,32,6,1184',
-            'include'      => '4,26,34,32,6',
+            'include'      => '4,26,34,32,6,1105',
             'title_li'     => __(''),
             'echo'         => 1,
             //'authors'      => '',
